@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft1_utils_list.c                                   :+:      :+:    :+:   */
+/*   ft_child.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 11:00:31 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/21 11:28:19 by mjulliat         ###   ########.fr       */
+/*   Created: 2022/12/23 11:35:08 by mjulliat          #+#    #+#             */
+/*   Updated: 2022/12/23 15:29:01 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-t_list	*ft_lstnew(char **env, char *cmd)
+void	ft_first_child(t_list *cmd, t_pipex *pipex, char **env)
 {
-	t_list	*new;
+	dup2(pipex->fd_pipe[1], 1);
+	close(pipex->fd_pipe[0]);
+	dup2(pipex->infile, 0);
+	execve(cmd->path, cmd->option, env);
+}
 
-	new = malloc(sizeof(t_list));
-	if (new == NULL)
-		return (0);
-	new->path = ft_get_path(env);
-	new->cmd = ft_get_cmd(cmd);
-	ft_get_full_path(new->path, cmd);
-	new->next = NULL;
-	return (new);
+void	ft_second_child(t_list *cmd, t_pipex *pipex, char **env)
+{
+	dup2(pipex->fd_pipe[0], 0);
+	close(pipex->fd_pipe[1]);
+	dup2(pipex->outfile, 1);
+	execve(cmd->path, cmd->option, env);
 }

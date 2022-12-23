@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft1_get_path.c                                     :+:      :+:    :+:   */
+/*   ft_get_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:05:31 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/21 11:31:18 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:20:46 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**ft_get_path(char **env)
+char	**ft_get_all_path(char **env)
 {
-	char	**path;
+	char	**all_path;
 	char	*str;
 	int		i;
 	int		j;
@@ -36,21 +36,21 @@ char	**ft_get_path(char **env)
 		}
 		i++;
 	}
-	path = ft_split(str + 5, ':');
+	all_path = ft_split(str + 5, ':');
 	free(str);
-	return (path);
+	return (all_path);
 }
 
-void	ft_get_full_path(char **path, char *cmd)
+void	ft_get_all_path_and_option(char **all_path, char *cmd)
 {
 	char	*tmp;
 	int		i;
 
 	i = 0;
 	tmp = ft_strjoin("/", cmd);
-	while (path[i] != NULL)
+	while (all_path[i] != NULL)
 	{
-		path[i] = ft_strjoin(path[i], tmp);
+		all_path[i] = ft_strjoin(all_path[i], tmp);
 		i++;
 	}
 	free(tmp);
@@ -60,15 +60,54 @@ char	*ft_get_cmd(char *cmd)
 {
 	char	*str;
 	int		i;
+	int		end;
 
+	end = 0;
 	i = 0;
-	str = ft_calloc(sizeof(char), ft_strlen(cmd) + 1);
+	while (cmd[end] == ' ')
+		end++;
+	while (cmd[end] != '\0' && cmd[end] != ' ')
+		end++;
+	str = ft_calloc(sizeof(char), end + 1);
 	if (!str)
 		return (NULL);
-	while (cmd[i] != '\0')
+	while (i < end)
 	{
 		str[i] = cmd[i];
 		i++;
+	}
+	return (str);
+}
+
+char	*ft_get_path(char **all_path, char *cmd)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (all_path[i] != NULL)
+	{
+		if (access(all_path[i], X_OK) == 0)
+		{
+			str = ft_calloc(sizeof(char), ft_strlen(all_path[i]) + 1);
+			if (!str)
+				return (NULL);
+			while (j < ft_strlen(all_path[i]))
+			{
+				str[j] = all_path[i][j];
+				j++;
+			}
+			break ;
+		}
+		i++;
+	}
+	if (all_path[i] == NULL)
+	{
+		ft_printf("%s : %s\n", strerror(errno), cmd);
+		exit (0);
+		return (NULL);
 	}
 	return (str);
 }

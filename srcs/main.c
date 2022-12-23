@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:04:07 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/21 12:03:54 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:27:35 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,28 @@
 
 int	main(int ac, char **av, char **env)
 {
-	int	i = 0;
-	t_data	data;
+	t_pipex	pipex;
 
-	data = ft_init_data(env, ac, av);
-	printf("%s\n", data.cmd->cmd);
-	while (data.cmd->path[i] != NULL)
-	{
-		printf("%s\n", data.cmd->path[i]);
-		i++;
-	}
+	ft_init_data(&pipex, env, av, ac);
+	pipex.infile = open(av[1], O_RDONLY);
+	if (pipex.infile < 0)
+		return (ft_error(&pipex, av[1]));
+	pipex.outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
+	if (pipex.outfile < 0)
+		return (ft_error(&pipex, av[ac - 1]));
+	if (pipe(pipex.fd_pipe) < 0)
+		return (0);
+	pipex.pid1 = fork();
+	if (pipex.pid1 == 0)
+		ft_first_child(pipex.cmd, &pipex, env);
+	if (pipex.pid1 != 0)
+		pipex.pid2 = fork();
+	if (pipex.pid2 == 0)
+		ft_second_child(pipex.cmd->next, &pipex, env);
+	printf("[%d]\n", pipex.fd_pipe[0]);
+	printf("[%d]\n", pipex.fd_pipe[1]);
+	ft_free_and_close(&pipex);
+	waitpid(pipex.pid1, NULL, 0);
+	waitpid(pipex.pid2, NULL, 0);
 	return (0);
 }

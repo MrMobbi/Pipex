@@ -1,0 +1,3 @@
+CC			= gcc -g -fsanitize=address$
+			$(CC) $(FLAGS) -L$(PRINTF) -lftprintf $(FRAMEWOKR) -o $@ $^ $
+					$(CC) $(FLAGS) -I$(HEADERS) -I$(PRINTF) -c $< -o $@$

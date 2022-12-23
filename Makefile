@@ -6,7 +6,7 @@
 #    By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 12:18:20 by mjulliat          #+#    #+#              #
-#    Updated: 2022/12/21 12:04:25 by mjulliat         ###   ########.fr        #
+#    Updated: 2022/12/23 14:19:53 by mjulliat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,14 @@ PRINTF		= ft_printf
 
 SOURCES		= main.c\
 			  utils.c\
-			  ft1_init_data.c\
-			  ft1_utils_list.c\
-			  ft1_get_path.c\
-			  ft1_split.c
+			  ft_init_data.c\
+			  ft_get_path.c\
+			  ft_get_option.c\
+			  ft_child.c\
+			  ft_free_and_close.c\
+			  ft_error.c\
+			  ft_utils_list.c\
+			  ft_split.c
 
 	### OBJETCTS ###
 
