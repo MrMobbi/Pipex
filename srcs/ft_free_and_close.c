@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:56:21 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/23 14:54:34 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 16:09:04 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,30 @@ void	ft_free_and_close(t_pipex *pipex)
 
 void	ft_free(t_pipex *pipex)
 {
-	int		i;
 	t_list	*tmp;
 
-	i = 0;
 	while (pipex->cmd != NULL)
 	{
-		while (pipex->cmd->all_path[i] != NULL)
-		{
-			free(pipex->cmd->all_path[i]);
-			i++;
-		}
-		i = 0;
-		while (pipex->cmd->option[i] != NULL)
-		{
-			free(pipex->cmd->option[i]);
-			i++;
-		}
-		free(pipex->cmd->all_path);
+		ft_free_tab_str(pipex->cmd->all_path);
 		free(pipex->cmd->path);
 		free(pipex->cmd->cmd);
 		if (pipex->cmd->option != NULL)
-			free(pipex->cmd->option);
+			ft_free_tab_str(pipex->cmd->option);
 		tmp = pipex->cmd;
 		pipex->cmd = pipex->cmd->next;
 		free(tmp);
 	}
+}
+
+void	ft_free_tab_str(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

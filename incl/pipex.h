@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:04:24 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/23 15:19:20 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 16:14:30 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	**ft_get_all_path(char **env);
 void	ft_get_all_path_and_option(char **path, char *cmd);
 char	*ft_get_cmd(char *cmd);
 char	*ft_get_path(char **all_path, char *cmd);
+char	*ft_path_fund(char *path);
 
 //		##### Ft_Get_Option.c #####
 char	**ft_get_option(char *cmd);
@@ -61,6 +62,7 @@ int		ft_error(t_pipex *pipex, char *str);
 //		##### Ft_Free_And_Close.c #####
 void	ft_free_and_close(t_pipex *pipex);
 void	ft_free(t_pipex *pipex);
+void	ft_free_tab_str(char **str);
 
 //		##### Ft_Utils_List.c #####
 t_list	*ft_lstnew(char **env, char *cmd);

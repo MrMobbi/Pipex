@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:05:31 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/23 14:20:46 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 16:14:54 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,13 @@ char	*ft_get_path(char **all_path, char *cmd)
 {
 	char	*str;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (all_path[i] != NULL)
 	{
 		if (access(all_path[i], X_OK) == 0)
 		{
-			str = ft_calloc(sizeof(char), ft_strlen(all_path[i]) + 1);
-			if (!str)
-				return (NULL);
-			while (j < ft_strlen(all_path[i]))
-			{
-				str[j] = all_path[i][j];
-				j++;
-			}
+			str = ft_path_fund(all_path[i]);
 			break ;
 		}
 		i++;
@@ -108,6 +99,23 @@ char	*ft_get_path(char **all_path, char *cmd)
 		ft_printf("%s : %s\n", strerror(errno), cmd);
 		exit (0);
 		return (NULL);
+	}
+	return (str);
+}
+
+char	*ft_path_fund(char *path)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = ft_calloc(sizeof(char), ft_strlen(path) + 1);
+	if (!str)
+		return (NULL);
+	while (i < ft_strlen(path))
+	{
+	str[i] = path[i];
+	i++;
 	}
 	return (str);
 }

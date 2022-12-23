@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:04:07 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/23 15:27:35 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:54:36 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	main(int ac, char **av, char **env)
 		pipex.pid2 = fork();
 	if (pipex.pid2 == 0)
 		ft_second_child(pipex.cmd->next, &pipex, env);
-	printf("[%d]\n", pipex.fd_pipe[0]);
-	printf("[%d]\n", pipex.fd_pipe[1]);
 	ft_free_and_close(&pipex);
 	waitpid(pipex.pid1, NULL, 0);
 	waitpid(pipex.pid2, NULL, 0);

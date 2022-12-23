@@ -6,7 +6,7 @@
 /*   By: mjulliat <mjulliat@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:20:01 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/12/23 15:15:18 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/12/23 16:09:23 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**ft_get_option(char *cmd)
 {
-	char **str;
+	char	**str;
 
-	str = ft_split(cmd , ' ');
+	str = ft_split(cmd, ' ');
 	return (str);
 }
